@@ -1,4 +1,4 @@
-Age,Gender,BMI,Blood Pressure,FBS,HbA1c,Family History of Diabetes,Smoking,Diet,Exercise,Diagnosis
+Age,Gender,BMI,Blood_pressure,FBS,HbA1c,Family_History_of_Diabeties,Smoking,Diet,Exercise,Diagnosis
 17,Female,15,Normal,100,5.7,No,No,Healthy,Regular,No
 52,Male,49,High,240,10.6,Yes,Yes,Poor,No,No
 50,Female,25,Normal,100,5.7,No,No,Healthy,Regular,No

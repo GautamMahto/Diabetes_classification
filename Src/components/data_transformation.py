@@ -108,6 +108,7 @@ from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import OneHotEncoder,StandardScaler
+from sklearn.preprocessing import LabelEncoder
 
 from Src.exception import CustomException
 from Src.logger import logging
@@ -125,7 +126,7 @@ class DataTransformation:
         logging.info("Data Transformation has been Started")
         try:
             numerical_columns=['Age','BMI','FBS','HbA1c']
-            categorical_columns=['Gender','Blood Pressure','Family History of Diabetes','Smoking','Diet','Exercise','Diagnosis']
+            categorical_columns=['Gender','Blood_pressure','Family_History_of_Diabeties','Smoking','Diet','Exercise']
 
             num_pipeline=Pipeline(
                 steps=[
@@ -149,8 +150,8 @@ class DataTransformation:
                     ("num_pipeline",num_pipeline,numerical_columns),
                     ("cat_pipelines",cat_pipeline,categorical_columns) 
                  ]
+            
             )
-
             return preprocessor
 
         except Exception as e:
@@ -167,21 +168,23 @@ class DataTransformation:
             preprocessing_object=self.get_data_transformer_object()
 
             target_column_name="Diagnosis"
+            le=LabelEncoder()
 
             input_feature_train_df=train_df
-            # target_feature_train_df=train_df[target_column_name]
+            target_feature_train_df=le.fit_transform(train_df[target_column_name])
 
             input_feature_test_df=test_df
-            # target_feature_test_df=test_df[target_column_name]
+            target_feature_test_df=le.fit_transform(test_df[target_column_name])
 
             input_feature_train_arr=preprocessing_object.fit_transform(input_feature_train_df)
             input_feature_test_arr=preprocessing_object.transform(input_feature_test_df)
 
+          
             train_arr=np.c_[
-                input_feature_train_arr  #,np.array(target_feature_train_df)
+                input_feature_train_arr,target_feature_train_df
             ]
 
-            test_arr=np.c_[input_feature_test_arr ] # ,np.array(target_feature_test_df)
+            test_arr=np.c_[input_feature_test_arr,target_feature_test_df]
                            
 
             logging.info("Saved preprocessing object.")
