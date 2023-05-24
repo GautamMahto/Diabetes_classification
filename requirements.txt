@@ -1,4 +1,9 @@
 numpy
 pandas
 pymongo
+catboost
+sklearn
+matplotlib
+xgboost
+dill
 -e .
